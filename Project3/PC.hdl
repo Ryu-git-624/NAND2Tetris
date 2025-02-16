@@ -1,0 +1,95 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/PC.hdl
+/**
+ * A 16-bit counter.
+ * if      reset(t): out(t+1) = 0
+ * else if load(t):  out(t+1) = in(t)
+ * else if inc(t):   out(t+1) = out(t) + 1
+ * else              out(t+1) = out(t)
+ */
+CHIP PC {
+    IN in[16], reset, load, inc;
+    OUT out[16];
+    
+    PARTS:
+    //出力を0にする
+    Not16(in=in, out=notin);
+    And16(a=notin, b=in, out=ZEROIN);
+
+    //incrementsub
+    Inc16(in=subout, out=subinc16);
+    Register(in=subinc16, load=inc, out=subinc);
+
+    //load
+    Register(in=in, load=load, out=register);
+
+    //result
+    DFF(in=reset, out=dffreset);
+    Mux16(a=register, b=ZEROIN, sel=dffreset, out=pre);
+    DFF(in=load, out=dff);
+    Or(a=dffreset, b=dff, out=dffor);
+    Mux16(a=subinc, b=pre, sel=dffor, out=out);
+    Mux16(a=subinc, b=pre, sel=dffor, out=subout);
+
+
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //インクリメント
+    //Inc16(in=regin, out=incval);
+    //インクリメント用レジスタ
+    //Register(in=incval, load=inc, out=regin);
+    //in用レジスタ
+    //Register(in=in, load=load, out=reg);
+    //レジスト用インクリメント
+    //Inc16(in=reg, out=reginc);
+    //in用インクリメント用レジスタ
+    //Register(in=reginc, load=inc, out=increg);
+    
+    //And(a=load, b=inc, out=andval);
+    //Mux16(a=regin, b=increg, sel=andval, out=mux);
+    //DFF(in=andval, out=dffload);
+    //Mux16(a=regin, b=reg, sel=dffload, out=out);
+    //Replace this comment with your code.
+}
